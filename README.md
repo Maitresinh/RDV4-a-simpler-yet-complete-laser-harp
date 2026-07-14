@@ -52,6 +52,17 @@ Le guide complet est dans `TUTORIAL.md`. Il suit un ordre qui évite de brancher
 
 Un sketch de diagnostic multi-mode est fourni dans `firmware/examples/diagnostics/`.
 
+## Schéma KiCad et panier
+
+- schéma de câblage KiCad : `hardware/kicad/RDV4_wiring.sch` ;
+- guide d'import KiCad : `hardware/kicad/README.md` ;
+- panier AliExpress : `ALIEXPRESS_CART.md` ;
+- BOM avec liens d'achat : `BOM.csv`.
+
+Le schéma représente le câblage des modules, pas un PCB. Le canal A du MCP4822 pilote X et le canal B maintient Y au neutre.
+
+Les liens AliExpress sont des recherches ciblées plutôt que des annonces figées, car les vendeurs et identifiants changent régulièrement. Le Teensy 4.0 reste recommandé chez PJRC ou un revendeur agréé.
+
 ## Architecture
 
 ```text
@@ -61,30 +72,33 @@ OPT101 ───────────────→ ADC Teensy 4.0
                               │
 VL53L4CD, zone octave ─I²C────┤
                               ├─USB natif──→ MIDI
-Teensy 4.0 ─SPI→ MCP4822 ─→ module offset/gain ─→ driver galvo X
+Teensy 4.0 ─SPI→ MCP4822 ─→ interface bipolaire double canal ─→ drivers X/Y
                               │
                               └─TTL──→ laser 650 nm <= 1 mW
 
 5 V laser → arrêt d'urgence NF → contact capot NF → module laser
 ```
 
-Le kit XY complet reste alimenté : l'axe X balaie les cordes et l'axe Y reçoit sa consigne neutre selon le manuel du kit.
+Le kit XY complet reste alimenté : l'axe X balaie les cordes et l'axe Y reçoit une consigne neutre depuis le canal B du MCP4822.
 
 ## Par où commencer
 
 1. `PURCHASE_CHECKLIST.md`
-2. `BOM.csv`
-3. `MECHANICS.md`
-4. `TUTORIAL.md`
-5. `WIRING.md`
-6. `CALIBRATION.md`
-7. `SAFETY.md`
+2. `ALIEXPRESS_CART.md`
+3. `BOM.csv`
+4. `MECHANICS.md`
+5. `TUTORIAL.md`
+6. `WIRING.md`
+7. `hardware/kicad/RDV4_wiring.sch`
+8. `CALIBRATION.md`
+9. `SAFETY.md`
 
 ## Statut
 
 - logique musicale, hystérésis et quantification d'octave testées nativement ;
 - firmware écrit pour Teensy 4.0 et PlatformIO ;
 - tutoriel et sketch de diagnostic fournis ;
+- schéma KiCad de câblage par modules fourni ;
 - validation matérielle encore nécessaire avec le kit galvo choisi ;
 - aucun Gerber fourni, volontairement.
 
