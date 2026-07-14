@@ -60,9 +60,10 @@ inline void laserOn() {
   }
 }
 
-void writeDacA(uint16_t value) {
+void writeDac(uint8_t channel, uint16_t value) {
   if (value > 4095) value = 4095;
-  const uint16_t command = static_cast<uint16_t>(0x3000U | value);
+  const uint16_t channelBit = channel ? 0x8000U : 0x0000U;
+  const uint16_t command = static_cast<uint16_t>(channelBit | 0x3000U | value);
   SPI.beginTransaction(dacSpi);
   digitalWriteFast(cfg::PIN_DAC_CS, LOW);
   SPI.transfer16(command);
@@ -117,9 +118,14 @@ void resetDetection() {
   frameCounter = 0;
 }
 
+void centerGalvos() {
+  writeDac(0, cfg::DAC_CENTER);
+  writeDac(1, cfg::DAC_Y_CENTER);
+}
+
 void enterSafeOff() {
   laserOff();
-  writeDacA(cfg::DAC_CENTER);
+  centerGalvos();
   if (runState == RunState::Armed) allNotesOff();
   runState = RunState::SafeOff;
   digitalWriteFast(cfg::PIN_STATUS_LED, LOW);
@@ -127,7 +133,7 @@ void enterSafeOff() {
 
 void enterFault() {
   laserOff();
-  writeDacA(cfg::DAC_CENTER);
+  centerGalvos();
   allNotesOff();
   runState = RunState::Fault;
   digitalWriteFast(cfg::PIN_STATUS_LED, HIGH);
@@ -208,7 +214,7 @@ void serviceHeightSensor() {}
 void processBeam(uint8_t index) {
   const uint16_t position = laserharp::evenlySpacedPosition(index, cfg::DAC_MIN, cfg::DAC_MAX);
   laserOff();
-  writeDacA(position);
+  writeDac(0, position);
   delayMicroseconds(cfg::GALVO_SETTLE_US);
 
   const int16_t rawSignal = measureReflection();
@@ -288,7 +294,7 @@ void setup() {
   analogReadResolution(12);
   analogReadAveraging(1);
   SPI.begin();
-  writeDacA(cfg::DAC_CENTER);
+  centerGalvos();
 
   Serial.begin(115200);
   setupHeightSensor();
