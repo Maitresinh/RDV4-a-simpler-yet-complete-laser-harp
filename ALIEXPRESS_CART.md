@@ -15,7 +15,7 @@ Acheter le Teensy auprès de PJRC ou d’un revendeur agréé.
 - **Kit XY 20 kpps avec alimentation ×1** : le kit identifié avec entrées `X+/G/X-` et `Y+/G/Y-` devient le choix de référence.
 - **Convertisseur différentiel double canal ×1** : [quatre sorties X+/X-/Y+/Y-](https://fr.aliexpress.com/w/wholesale-dual-channel-differential-analog-signal-converter-module.html)
 - **Module rouge 650 nm TTL ×1** : [lentille réglable, puissance mesurée <=1 mW](https://fr.aliexpress.com/w/wholesale-650nm-1mw-ttl-laser-module-5v-12mm.html)
-- **Support métallique réglable 12 mm ×1** : [ouvrir la recherche](https://fr.aliexpress.com/w/wholesale-12mm-adjustable-laser-module-mount.html)
+- **Support laser 12 mm** : ne rien acheter d’abord. Imprimer le support AixiZ existant du projet [ThingEngineer / Laser XY Scanner](https://www.thingiverse.com/thing:2710048), puis adapter seulement la base et la hauteur. Un support métallique reste une solution de repli si le modèle reçu n’est pas réellement cylindrique en 12 mm.
 - **Module OPT101 ×1** : [vendeur avec photo nette et brochage](https://fr.aliexpress.com/w/wholesale-opt101-photodiode-amplifier-sensor-module.html)
 - **Breakout VL53L4CD ×1** : [version STEMMA QT/Qwiic possible](https://fr.aliexpress.com/w/wholesale-vl53l4cd-stemma-qt-qwiic-distance-sensor.html)
 
@@ -46,6 +46,8 @@ Les fils fixes sont soudés directement aux modules et protégés à la gaine th
 - **Colliers à embase vissée ×1** : [ouvrir la recherche](https://fr.aliexpress.com/w/wholesale-screw-mount-cable-tie-base.html)
 - **Filtre rouge 650 nm ×1**, facultatif : [ouvrir la recherche](https://fr.aliexpress.com/w/wholesale-650nm-red-optical-bandpass-filter.html)
 
+Les autres pièces 3D sont décidées après réception et mesure : bride de tube OPT101 seulement si nécessaire, berceau VL53L4CD seulement si le breakout se fixe mal. Voir `REUSED_3D_PARTS.md`.
+
 ## Commande en deux temps
 
 1. Commander le Teensy, MCP4822, OPT101, VL53L4CD, passifs, sécurité et câblage minimal.
@@ -57,4 +59,5 @@ Les fils fixes sont soudés directement aux modules et protégés à la gaine th
 - vérifier que le VL53L4CD n'est pas remplacé par un VL53L0X ;
 - vérifier que le convertisseur fournit bien `X+`, `X-`, `Y+` et `Y-` ;
 - ne pas acheter un coffret WAGO de 20 EUR pour ce prototype ;
+- mesurer le corps réel du laser avant impression du support 12 mm ;
 - privilégier livraison Choice ou entrepôt UE lorsque le surcoût reste faible.
