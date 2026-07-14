@@ -1,0 +1,13 @@
+Net,Origine,Destination,Remarque
+3V3,Teensy 3.3V,MCP4822/VL53L4CD et modules compatibles,Ne pas dépasser le courant du régulateur Teensy
+GND_LOGIC,Point étoile logique,Tous modules logiques et GND laser,Éloigner des courants galvo
+DAC_X_0_2V048,MCP4822 VOUTA,Interface bipolaire canal X,Balayage
+DAC_Y_0_2V048,MCP4822 VOUTB,Interface bipolaire canal Y,Consigne neutre
+GALVO_X_CMD,Interface canal X,Driver X,Commencer avec faible amplitude
+GALVO_Y_ZERO,Interface canal Y,Driver Y,0 V après calibration
+LASER_5V_SAFE,E-stop + capot,Alimentation laser,Chaîne physique de sécurité
+LASER_TTL_PIN6,Teensy pin 6,R1 1k puis entrée TTL,R2 10k vers GND
+INTERLOCK_MON_PIN3,Diviseur 12k/22k,Teensy pin 3,5 V devient environ 3.2 V
+PHOTO_A1,OPT101 OUT,Teensy A1,Jamais plus de 3.3 V
+I2C_SDA_PIN18,Teensy pin 18,VL53L4CD SDA,3.3 V
+I2C_SCL_PIN19,Teensy pin 19,VL53L4CD SCL,3.3 V
