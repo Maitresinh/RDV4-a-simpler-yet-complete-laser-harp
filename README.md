@@ -94,4 +94,4 @@ Le prototype est prévu pour un laser visible mesuré à **1 mW maximum**. Il ne
 
 ## Licence
 
-Le code et la documentation propres à ce dépôt sont sous licence MIT. Les modèles et projets tiers conservent leurs licences respectives. Voir `NOTICE.md`, `SOURCES.md` et `MECHANICS.md`.
+Le projet est publié sous **GNU GPL v3**, conformément au fichier `LICENSE` déjà présent dans le dépôt. Les modèles et projets tiers conservent leurs licences respectives. Voir `NOTICE.md`, `SOURCES.md` et `MECHANICS.md`.
