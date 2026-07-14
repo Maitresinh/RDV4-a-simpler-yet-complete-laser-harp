@@ -14,11 +14,12 @@ constexpr uint8_t DAC_CS = 10;
 SPISettings dacSpi(20000000, MSBFIRST, SPI_MODE0);
 VL53L4CD tof;
 
-void writeDacA(uint16_t value) {
+void writeDac(uint8_t channel, uint16_t value) {
   value = min<uint16_t>(value, 4095);
+  const uint16_t command = (channel ? 0x8000U : 0x0000U) | 0x3000U | value;
   SPI.beginTransaction(dacSpi);
   digitalWriteFast(DAC_CS, LOW);
-  SPI.transfer16(0x3000U | value);
+  SPI.transfer16(command);
   digitalWriteFast(DAC_CS, HIGH);
   SPI.endTransaction();
 }
@@ -39,6 +40,7 @@ void setup() {
   analogReadResolution(12);
   analogReadAveraging(1);
   SPI.begin();
+  writeDac(1, 2048); // axe Y maintenu au neutre
 
 #if TEST_MODE == 2
   Wire.begin();
@@ -72,7 +74,7 @@ void loop() {
 #elif TEST_MODE == 1
   const uint16_t values[] = {1800, 2048, 2300};
   for (uint16_t value : values) {
-    writeDacA(value);
+    writeDac(0, value);
     Serial.printf("DAC=%u Vout≈%.3f V\n", value, value * 2.048f / 4096.0f);
     delay(2000);
   }
@@ -98,11 +100,11 @@ void loop() {
   constexpr uint16_t center = 2048;
   constexpr uint16_t halfSpan = 80;
   for (uint8_t i = 0; i < 12; ++i) {
-    writeDacA(center - halfSpan + (2U * halfSpan * i) / 11U);
+    writeDac(0, center - halfSpan + (2U * halfSpan * i) / 11U);
     delay(20);
   }
   for (int i = 10; i >= 1; --i) {
-    writeDacA(center - halfSpan + (2U * halfSpan * i) / 11U);
+    writeDac(0, center - halfSpan + (2U * halfSpan * i) / 11U);
     delay(20);
   }
 #endif
