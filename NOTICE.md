@@ -1,6 +1,6 @@
 # Notices et attributions
 
-Le code original de RDV4 et sa documentation sont sous licence MIT.
+Le code original de RDV4 et sa documentation sont publiés sous GNU GPL v3, conformément au fichier `LICENSE` du dépôt.
 
 Les projets tiers étudiés ne sont pas incorporés automatiquement dans ce dépôt. Leurs licences restent applicables à leurs propres fichiers.
 
