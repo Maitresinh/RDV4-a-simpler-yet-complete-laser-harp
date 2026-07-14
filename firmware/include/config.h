@@ -25,6 +25,7 @@ constexpr uint8_t BASE_NOTE = 60; // C4, puis offsets -12/0/+12/+24
 constexpr uint8_t MIDI_VELOCITY = 100;
 
 constexpr uint16_t DAC_CENTER = 2048;
+constexpr uint16_t DAC_Y_CENTER = 2048; // canal B, axe Y maintenu au neutre
 constexpr uint16_t DAC_MIN = 1848;
 constexpr uint16_t DAC_MAX = 2248;
 constexpr uint32_t DAC_SPI_HZ = 20000000;
