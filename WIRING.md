@@ -1,5 +1,7 @@
 # Câblage détaillé
 
+Le schéma KiCad correspondant est dans `hardware/kicad/RDV4_wiring.sch`.
+
 ## Teensy 4.0
 
 | Fonction | Broche |
@@ -26,9 +28,11 @@ Créer un point de masse logique commun près des borniers :
 - GND OPT101 ;
 - GND VL53L4CD ;
 - GND TTL laser ;
-- masse signal de l'interface galvo, si le fabricant autorise une entrée simple-ended.
+- masse signal de l'interface galvo, uniquement si le fabricant autorise une entrée simple-ended.
 
 Ne pas mélanger au hasard la masse de puissance galvo et la masse logique. La connexion éventuelle se fait en un seul point, selon le manuel du kit et du module d'interface.
+
+Le laser et les auxiliaires utilisent une alimentation USB 5 V séparée. Son GND doit rejoindre le GND logique pour donner une référence à l'entrée TTL, mais son +5 V passe par la chaîne de sécurité.
 
 ## MCP4822
 
@@ -40,10 +44,17 @@ Ne pas mélanger au hasard la masse de puissance galvo et la masse logique. La c
 | SCK | Teensy 13 |
 | CS | Teensy 10 |
 | LDAC | GND |
-| VOUTA | entrée du module offset/gain |
-| VOUTB | non utilisé |
+| VOUTA | entrée X du module offset/gain |
+| VOUTB | entrée Y du module offset/gain |
 
 Placer 100 nF entre VDD et GND près du module si le breakout n'en possède pas.
+
+Le firmware utilise :
+
+- canal A pour balayer les douze cordes sur X ;
+- canal B pour maintenir Y à sa position neutre.
+
+Il faut donc un convertisseur bipolaire double canal, ou deux convertisseurs identiques.
 
 ## OPT101
 
@@ -105,23 +116,27 @@ Avec 5 V, la broche reçoit environ 3,2 V. Le firmware utilise un pull-down inte
 
 Ne jamais relier directement le 5 V à la broche 3.
 
-## Interface galvo
+## Interface galvo double canal
 
-Le MCP4822 ne commande pas directement le driver.
+Le MCP4822 ne commande pas directement les drivers.
 
 ```text
-MCP4822 VOUTA
-   ↓ 0 à 2,048 V
-module offset/gain
-   ↓ tension centrée autour de 0 V
-entrée X du driver galvo
+MCP4822 VOUTA 0..2,048 V → interface canal X → tension centrée 0 V → driver X
+MCP4822 VOUTB 0..2,048 V → interface canal Y → 0 V calibré          → driver Y
 ```
 
-- régler 0 V lorsque le DAC vaut 2048 ;
-- commencer avec une amplitude inférieure à ±0,5 V ;
-- confirmer si l'entrée est simple ou différentielle ;
-- ne pas relier X- à GND sans documentation ;
-- l'axe Y doit être alimenté et maintenu à sa consigne neutre si le faisceau traverse ses deux miroirs.
+- régler 0 V lorsque chaque canal DAC vaut 2048 ;
+- commencer avec une amplitude X inférieure à ±0,5 V ;
+- régler Y à son neutre et ne plus le balayer ;
+- confirmer si chaque entrée est simple ou différentielle ;
+- ne relier ni X- ni Y- à GND sans documentation ;
+- laisser les deux drivers galvo alimentés si le faisceau traverse les deux miroirs.
+
+## Schéma KiCad
+
+Ouvrir `hardware/kicad/RDV4_wiring.sch`. KiCad 6 à 9 importe ce schéma legacy puis le convertit au format moderne `.kicad_sch` lors de l'enregistrement.
+
+Le dossier contient aussi `net-labels.csv`, utile pour étiqueter les deux extrémités de chaque câble.
 
 ## Couleurs de fils conseillées
 
